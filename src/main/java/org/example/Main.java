@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static org.example.Util.listForDate;
+
 
 class Main {
 
@@ -45,7 +47,7 @@ class Main {
                 System.out.println("---------------------------------------\n");
                 lastNum++;
 
-            } else if (cmd.equals("article list")) {
+            } else if (cmd.contains("article list")) {
 
                 System.out.println("No. |     date     |  Title  |  Content");
                 if (articles.isEmpty()) {
@@ -54,18 +56,25 @@ class Main {
                 }
                 System.out.println("---------------------------------------");
 
-                for (int i = articles.size() - 1; i >= 0; i--) {
-
-                    if (Util.getNow().split(" ")[0].equals(articles.get(i).rgDate.split(" ")[0])) {
-                        System.out.printf(" %d. |  %-10s  |  %-5s  |  %s\n", articles.get(i).num,
-                                articles.get(i).rgDate.split(" ")[1], articles.get(i).title, articles.get(i).content);
-                    } else {
-                        System.out.printf(" %d. |  %-10s  |  %-5s  |  %s\n", articles.get(i).num,
-                                articles.get(i).rgDate.split(" ")[0], articles.get(i).title, articles.get(i).content);
+                // 만약 검색할 문자가 있다면 실행
+                if(cmd.length() > 12) {
+                    // article 배열 역순회
+                    for (int i = articles.size() - 1; i >= 0; i--) {
+                        // 검색어가 포함된 article만 출력
+                        if (Util.findTitle(articles.get(i), cmd.substring(12).strip())) {
+                            listForDate(articles.get(i));
+                        }
                     }
-                }
-                System.out.println("---------------------------------------\n");
+                    System.out.println("---------------------------------------\n");
 
+                // 검색할 문자가 없다면 실행
+                } else {
+                    for (int i = articles.size() - 1; i >= 0; i--) {
+                        listForDate(articles.get(i));
+                    }
+                    System.out.println("---------------------------------------\n");
+                }
+                
             } else if (cmd.contains("article detail")) {
                 int detailNo = Integer.parseInt(cmd.split(" ")[2]);
                 Article foundArti = Util.findArticle(detailNo);
@@ -123,8 +132,8 @@ class Main {
 
     /** 테스트 데이터 메서드 **/
     public static int makeTestData(int lastNum, List<Article> articles) {
-        articles.add(new Article(lastNum++, "2024-10-10 01:01:01", "2025-11-11 11:11:11", "케로로", "케로케로"));
-        articles.add(new Article(lastNum++, "2025-02-02 02:02:02", "2025-12-12 12:12:12", "쿠루루", "쿠쿠쿠"));
+        articles.add(new Article(lastNum++, "2024-10-10 01:01:01", "2025-11-11 11:11:11", "a로로", "케로케로"));
+        articles.add(new Article(lastNum++, "2025-02-02 02:02:02", "2025-12-12 12:12:12", "a루루", "쿠쿠쿠"));
         articles.add(new Article(lastNum++, "2025-03-03 03:03:03", "2025-03-13 13:13:13", "도로로", "닌자"));
         return lastNum;
     }
