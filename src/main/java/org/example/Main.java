@@ -47,19 +47,22 @@ class Main {
                 while (true) {
                     System.out.print("ID : ");
                     loginId = sc.nextLine().trim();
-                    boolean checkID = true;
 
+                    // 중복되는 ID를 발견하면 continue
+                    boolean checkID = true;
                     for (Member member : members) {
                         if (member.getLoginId().equals(loginId)) {
                             System.out.println("이미 존재하는 ID 입니다.");
                             checkID = false;
                         }
                     }
+                    // 중복되는 ID를 발견하지 못했으면 break
                     if (checkID) {
                         break;
                     }
                 }
 
+                // 비밀번호 확인
                 while (true) {
                     System.out.print("Password : ");
                     loginPassword = sc.next().trim();
@@ -74,7 +77,9 @@ class Main {
                 }
 
                 System.out.print("Name : ");
-                name = sc.next();
+                // 버퍼에 공백이 남는 오류(왜?) 해결
+                sc.nextLine();
+                name = sc.nextLine().trim();
 
                 members.add(new Member(Util.getNow(), loginId, loginPassword, name));
                 System.out.println("회원가입 완료");
@@ -84,10 +89,11 @@ class Main {
 
                 System.out.println("[ 로그인 ]");
                 System.out.print("ID : ");
-                String ID = sc.next();
+                String ID = sc.nextLine().trim();
                 System.out.print("Password : ");
-                String PW = sc.next();
+                String PW = sc.nextLine().trim();
 
+                // 입력한 ID와 PW가 있다면 로그인 성공
                 boolean checkLogin = false;
                 for (Member member : members) {
                     if (member.isLogin(member, ID, PW)) {
@@ -96,6 +102,7 @@ class Main {
                     }
                 }
 
+                // 없다면 로그인 실패
                 System.out.println("---------------------------------------\n");
                 if (checkLogin) {
                     System.out.println("잘못된 ID/PW 입니다.");
@@ -104,31 +111,33 @@ class Main {
 
             } else if (cmd.equals("logout")) {
 
+                // 로그아웃은 ID/PW가 필요 없을 것 같다.
+//                System.out.println("[ 로그아웃 ]");
+//                System.out.print("ID : ");
+//                loginId = sc.next();
+//                System.out.print("Password : ");
+//                loginPassword = sc.next();
+//
+//                boolean checkLogin = false;
+//                for (Member member : members) {
+//                    if (member.isLogin(member, loginId, loginPassword)) {
+//                        System.out.println("로그아웃 되었습니다.");
+//                        checkLogin = true;
+//                        break;
+//                    }
+//                }
+//                if (!checkLogin) {
+//                    System.out.println("잘못된 ID/PW 입니다.");
+//                }
                 System.out.println("[ 로그아웃 ]");
-                System.out.print("ID : ");
-                loginId = sc.next();
-                System.out.print("Password : ");
-                loginPassword = sc.next();
-
-                boolean checkLogin = false;
-                for (Member member : members) {
-                    if (member.isLogin(member, loginId, loginPassword)) {
-                        System.out.println("로그아웃 되었습니다.");
-                        checkLogin = true;
-                        break;
-                    }
-                }
-                if (!checkLogin) {
-                    System.out.println("잘못된 ID/PW 입니다.");
-                }
                 System.out.println("---------------------------------------\n");
 
             } else if (cmd.equals("article write")) {
 
                 System.out.print("Enter title: ");
-                String title = sc.nextLine();
+                String title = sc.nextLine().trim();
                 System.out.print("Enter content: ");
-                String content = sc.nextLine();
+                String content = sc.nextLine().trim();
                 String rgDate = Util.getNow();
                 String upDate = Util.getNow();
                 article = new Article(lastNum, rgDate, upDate, title, content);
@@ -200,12 +209,12 @@ class Main {
                 if (foundArti != null) {
                     System.out.printf("기존 제목 : %s\n", foundArti.title);
                     System.out.print("새로운 제목 : ");
-                    String newTitle = sc.nextLine();
+                    String newTitle = sc.nextLine().trim();
                     foundArti.setTitle(newTitle);
 
                     System.out.printf("기존 내용 : %s\n", foundArti.content);
                     System.out.print("새로운 내용 : ");
-                    String newContent = sc.nextLine();
+                    String newContent = sc.nextLine().trim();
                     foundArti.setContent(newContent);
 
                     String upDate = Util.getNow();
@@ -227,9 +236,9 @@ class Main {
      **/
     public static int makeTestDataArticle(int lastId, List<Article> articles) {
         System.out.println("(테스트 데이터 article 3EA 추가)");
-        articles.add(new Article(lastId++, "2024-10-10 01:01:01", "2025-11-11 11:11:11", "케로a", "케로케로"));
-        articles.add(new Article(lastId++, "2025-02-02 02:02:02", "2025-12-12 12:12:12", "쿠루", "쿠쿠쿠"));
-        articles.add(new Article(lastId++, "2025-03-03 03:03:03", "2025-03-13 13:13:13", "도로", "닌자"));
+        articles.add(new Article(lastId++, "2024-10-10 01:01:01", "2025-11-11 11:11:11", "keroro", "kerokero"));
+        articles.add(new Article(lastId++, "2025-02-02 02:02:02", "2025-12-12 12:12:12", "kululu", "kukuku"));
+        articles.add(new Article(lastId++, "2025-03-03 03:03:03", "2025-03-13 13:13:13", "dororo", "ninza"));
         return lastId;
     }
 

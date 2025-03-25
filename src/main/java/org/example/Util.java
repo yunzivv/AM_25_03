@@ -39,11 +39,11 @@ public class Util {
     /** 작성일자에 따라 다른 article list를 출력하는 메서드**/
     public static void listForDate (Article article) {
         if(Util.getNow().split(" ")[0].equals(article.rgDate)) {
-            System.out.printf(" %d. |  %-10s  |  %-5s  |  %s\n",
+            System.out.printf(" %d. | %-12s |  %-5s  |  %s\n",
                     article.num, article.rgDate.split(" ")[1],
                     article.title, article.content);
         } else {
-            System.out.printf(" %d. |  %-10s  |  %-5s  |  %s\n",
+            System.out.printf(" %d. | %-12s |  %-5s  |  %s\n",
                     article.num, article.rgDate.split(" ")[0],
                     article.title, article.content);
         }
