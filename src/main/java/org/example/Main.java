@@ -74,7 +74,7 @@ class Main {
                     }
                     System.out.println("---------------------------------------\n");
                 }
-                
+
             } else if (cmd.contains("article detail")) {
                 int detailNo = Integer.parseInt(cmd.split(" ")[2]);
                 Article foundArti = Util.findArticle(detailNo);
@@ -91,6 +91,7 @@ class Main {
             } else if (cmd.contains("article delete")) {
 
                 int deleteNo = Integer.parseInt(cmd.split(" ")[2]);
+
                 Article foundArti = Util.findArticle(deleteNo);
 
                 if (foundArti != null) {
@@ -103,6 +104,7 @@ class Main {
             } else if (cmd.contains("article modify")) {
 
                 int modifyNum = Integer.parseInt(cmd.split(" ")[2]);
+
                 Article foundArti = Util.findArticle(modifyNum);
 
                 if (foundArti != null) {
