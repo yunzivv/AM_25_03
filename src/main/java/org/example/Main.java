@@ -15,49 +15,19 @@ class Main {
     static List<Member> members = new ArrayList<>();
 
     public static void main(String[] args) {
-        int lastNum = 1;
-
         Scanner sc = new Scanner(System.in);
         Article article;
-        boolean login = false;
-        boolean pw = false;
-
+        int lastNum = 1;
+        String loginId;
+        String loginPassword = null;
+        String name;
 
         // 테스트 데이터 추가
         lastNum = makeTestDataArticle(lastNum, articles);
         makeTestDataMember(members);
 
-        // 회원가입 또는 로그인
-        System.out.print("1. Sign up / 2. Login : ");
-        int choice = sc.nextInt();
-        if (choice == 1) {
-            System.out.println("============== 회원가입 ==============");
-            System.out.print("ID : ");
-            String id = sc.next();
-            System.out.print("Password : ");
-            String password = sc.next();
-            System.out.print("Name : ");
-            String name = sc.next();
-
-            members.add(new Member(getNow(), id, password, name));
-
-        }
-
-        System.out.println("================ 로그인 ================");
-        System.out.print("ID : ");
-        String id = sc.next();
-        System.out.print("Password : ");
-        String password = sc.next();
-
-        for (Member member : members) {
-            if(member.isLogin(member, id, password)) {
-                login = true;
-                break;
-            }
-        }
-
         System.out.println("============ 프로그램 시작 ============");
-        while (login) {
+        while (true) {
             sc.nextLine();
             System.out.print("cmd : ");
             String cmd = sc.nextLine();
@@ -67,6 +37,89 @@ class Main {
                 System.out.println("Goodbye!");
                 System.out.println("============ 프로그램 종료 ============");
                 break;
+
+            } else if (cmd.equals("join")) {
+
+                System.out.println("[ 회원가입 ]");
+                // 중복되지 않은 ID 입력받기
+                while (true) {
+                    System.out.print("ID : ");
+                    loginId = sc.nextLine().trim();
+                    boolean checkID = true;
+
+                    for (Member member : members) {
+                        if (member.getLoginId().equals(loginId)) {
+                            System.out.println("이미 존재하는 ID 입니다.");
+                            checkID = false;
+                        }
+                    }
+                    if (checkID) {
+                        break;
+                    }
+                }
+
+                while (true) {
+                    System.out.print("Password : ");
+                    loginPassword = sc.next().trim();
+                    System.out.print("Password check : ");
+                    String loginPasswordCheck = sc.next().trim();
+
+                    if (loginPassword.equals(loginPasswordCheck)) {
+                        break;
+                    } else {
+                        System.out.println("비밀번호가 일치하지 않습니다.");
+                    }
+                }
+
+                System.out.print("Name : ");
+                name = sc.next();
+
+                members.add(new Member(Util.getNow(), loginId, loginPassword, name));
+                System.out.println("회원가입 완료");
+                System.out.println("---------------------------------------\n");
+
+            } else if (cmd.equals("login")) {
+
+                System.out.println("[ 로그인 ]");
+                System.out.print("ID : ");
+                String ID = sc.next();
+                System.out.print("Password : ");
+                String PW = sc.next();
+
+                boolean checkLogin = false;
+                for (Member member : members) {
+                    if (member.isLogin(member, ID, PW)) {
+                        System.out.println("로그인 되었습니다.");
+                        break;
+                    }
+                }
+
+                System.out.println("---------------------------------------\n");
+                if (checkLogin) {
+                    System.out.println("잘못된 ID/PW 입니다.");
+                    System.out.println("---------------------------------------\n");
+                }
+
+            } else if (cmd.equals("logout")) {
+
+                System.out.println("[ 로그아웃 ]");
+                System.out.print("ID : ");
+                loginId = sc.next();
+                System.out.print("Password : ");
+                loginPassword = sc.next();
+
+                boolean checkLogin = false;
+                for (Member member : members) {
+                    if (member.isLogin(member, loginId, loginPassword)) {
+                        System.out.println("로그아웃 되었습니다.");
+                        checkLogin = true;
+                        break;
+                    }
+                }
+                if (!checkLogin) {
+                    System.out.println("잘못된 ID/PW 입니다.");
+                }
+                System.out.println("---------------------------------------\n");
 
             } else if (cmd.equals("article write")) {
 
@@ -93,7 +146,7 @@ class Main {
 
                 // 만약 검색할 문자가 있다면 실행
                 if (cmd.length() > 12) {
-                    // article 배열 역순회
+
                     for (int i = articles.size() - 1; i >= 0; i--) {
                         // 검색어가 포함된 article만 출력
                         if (Util.findTitle(articles.get(i), cmd.substring(12).strip())) {
@@ -167,7 +220,9 @@ class Main {
 
     }
 
-    /** 테스트 데이터 메서드**/
+    /**
+     * 테스트 데이터 메서드
+     **/
     public static int makeTestDataArticle(int lastId, List<Article> articles) {
         System.out.println("(테스트 데이터 article 3EA 추가)");
         articles.add(new Article(lastId++, "2024-10-10 01:01:01", "2025-11-11 11:11:11", "케로a", "케로케로"));
@@ -176,7 +231,9 @@ class Main {
         return lastId;
     }
 
-    /**테스트 데이터 메서드**/
+    /**
+     * 테스트 데이터 메서드
+     **/
     public static void makeTestDataMember(List<Member> members) {
         System.out.println("(테스트 데이터 Member 3EA 추가)");
         members.add(new Member("2022-02-02", "keroro", "green", "케로로"));
