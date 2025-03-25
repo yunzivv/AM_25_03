@@ -28,9 +28,11 @@ class Main {
 
         System.out.println("============ 프로그램 시작 ============");
         while (true) {
-            sc.nextLine();
+
             System.out.print("cmd : ");
-            String cmd = sc.nextLine();
+            // 공백이 남아 있어서 명령어 입력 시 오류가 계속 발생
+            // 명령어를 trim으로 공백 제거해서 오류 해결
+            String cmd = sc.nextLine().trim();
             System.out.println("---------------------------------------");
 
             if (cmd.equals("exit")) {
