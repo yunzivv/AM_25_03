@@ -34,19 +34,15 @@ public class Member {
         this.loginPw = loginPwd;
     }
 
-    public boolean isLogin(Member member, String loginId, String loginPwd) {
+    public String isLogin(Member member, String loginId, String loginPwd) {
 
-        if(member.getLoginId().equals(loginId)) {
-            if(member.getLoginPwd().equals(loginPwd)) {
-                return true;
+        if (member.getLoginId().equals(loginId)) {
+            if (member.getLoginPwd().equals(loginPwd)) {
+                return "TT";
             } else {
-                System.out.println("비밀번호가 틀렸습니다.");
-                return false;
+                return "TF";
             }
         }
-        return false;
+        return "FF";
     }
-
-
-
 }

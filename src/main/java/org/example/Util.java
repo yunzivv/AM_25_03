@@ -2,8 +2,6 @@ package org.example;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.example.Main.articles;
 
@@ -36,7 +34,7 @@ public class Util {
         return false;
     }
 
-    /** 작성일자에 따라 다른 article list를 출력하는 메서드**/
+    /**작성일자에 따라 다른 article list를 출력하는 메서드**/
     public static void listForDate (Article article) {
         if(Util.getNow().split(" ")[0].equals(article.rgDate)) {
             System.out.printf(" %d. | %-12s |  %-5s  |  %s\n",

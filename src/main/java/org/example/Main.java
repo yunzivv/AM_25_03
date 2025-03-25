@@ -21,6 +21,7 @@ class Main {
         String loginId;
         String loginPassword = null;
         String name;
+        boolean login;
 
         // 테스트 데이터 추가
         lastNum = makeTestDataArticle(lastNum, articles);
@@ -94,20 +95,25 @@ class Main {
                 String PW = sc.nextLine().trim();
 
                 // 입력한 ID와 PW가 있다면 로그인 성공
-                boolean checkLogin = false;
+                login = false;
                 for (Member member : members) {
-                    if (member.isLogin(member, ID, PW)) {
+                    String loginResult = member.isLogin(member, ID, PW);
+                    if (loginResult.equals("TT")) {
                         System.out.println("로그인 되었습니다.");
+                        System.out.println("---------------------------------------\n");
+                        login = true;
+                        break;
+                    } else if (loginResult.equals("TF")) {
+                        System.out.println("잘못된 비밀번호 입니다.");
+                        System.out.println("---------------------------------------\n");
+                        break;
+                    } else {
+                        System.out.println("존재하지 않는 아이디입니다.");
+                        System.out.println("---------------------------------------\n");
                         break;
                     }
                 }
 
-                // 없다면 로그인 실패
-                System.out.println("---------------------------------------\n");
-                if (checkLogin) {
-                    System.out.println("잘못된 ID/PW 입니다.");
-                    System.out.println("---------------------------------------\n");
-                }
 
             } else if (cmd.equals("logout")) {
 
@@ -175,6 +181,7 @@ class Main {
                 }
 
             } else if (cmd.contains("article detail")) {
+
                 int detailNo = Integer.parseInt(cmd.split(" ")[2]);
                 Article foundArti = Util.findArticle(detailNo);
 
@@ -190,7 +197,6 @@ class Main {
             } else if (cmd.contains("article delete")) {
 
                 int deleteNo = Integer.parseInt(cmd.split(" ")[2]);
-
                 Article foundArti = Util.findArticle(deleteNo);
 
                 if (foundArti != null) {
@@ -203,7 +209,6 @@ class Main {
             } else if (cmd.contains("article modify")) {
 
                 int modifyNum = Integer.parseInt(cmd.split(" ")[2]);
-
                 Article foundArti = Util.findArticle(modifyNum);
 
                 if (foundArti != null) {
@@ -232,7 +237,7 @@ class Main {
     }
 
     /**
-     * 테스트 데이터 메서드
+     * article 테스트 데이터 메서드
      **/
     public static int makeTestDataArticle(int lastId, List<Article> articles) {
         System.out.println("(테스트 데이터 article 3EA 추가)");
@@ -243,7 +248,7 @@ class Main {
     }
 
     /**
-     * 테스트 데이터 메서드
+     * member 테스트 데이터 메서드
      **/
     public static void makeTestDataMember(List<Member> members) {
         System.out.println("(테스트 데이터 Member 3EA 추가)");
