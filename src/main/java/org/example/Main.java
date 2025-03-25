@@ -67,65 +67,36 @@ class Main {
                 System.out.println("---------------------------------------\n");
 
             } else if (cmd.contains("article detail")) {
-                Article foundArti = null;
                 int detailNo = Integer.parseInt(cmd.split(" ")[2]);
-                for (Article arti : articles) {
-                    if (arti.num == detailNo) {
-                        foundArti = arti;
-                        break;
-                    }
-                }
+                Article foundArti = Util.findArticle(detailNo);
 
-                if (foundArti == null) {
-                    System.out.println(detailNo + "번 게시글은 없습니다.");
-                    System.out.println("-------------------------\n");
-                } else {
+                if (foundArti != null) {
                     System.out.printf("번호 : %d\n", articles.get(detailNo - 1).num);
                     System.out.printf("작성 시간 : %s\n", articles.get(detailNo - 1).rgDate);
                     System.out.printf("수정 시간 : %s\n", articles.get(detailNo - 1).upDate);
                     System.out.printf("제목 : %s\n", articles.get(detailNo - 1).title);
                     System.out.printf("내용 : %s\n", articles.get(detailNo - 1).content);
-                    System.out.println("-------------------------\n");
+                    System.out.println("---------------------------------------\n");
                 }
 
             } else if (cmd.contains("article delete")) {
 
                 int deleteNo = Integer.parseInt(cmd.split(" ")[2]);
-                Article foundArti = null;
+                Article foundArti = Util.findArticle(deleteNo);
 
-                for (Article arti : articles) {
-                    if (arti.num == deleteNo) {
-                        foundArti = arti;
-                        break;
-                    }
-                }
-
-                if (foundArti == null) {
-                    System.out.println(deleteNo + "번 게시글은 없습니다.");
-                    System.out.println("-------------------------\n");
-                } else {
+                if (foundArti != null) {
                     articles.remove(foundArti);
                     System.out.println(deleteNo + "번 게시글이 삭제되었습니다.");
-                    System.out.println("-------------------------\n");
+                    System.out.println("---------------------------------------\n");
                 }
 
 
             } else if (cmd.contains("article modify")) {
 
                 int modifyNum = Integer.parseInt(cmd.split(" ")[2]);
-                Article foundArti = null;
+                Article foundArti = Util.findArticle(modifyNum);
 
-                for (Article arti : articles) {
-                    if (arti.num == modifyNum) {
-                        foundArti = arti;
-                        break;
-                    }
-                }
-
-                if (foundArti == null) {
-                    System.out.println(modifyNum + "번 게시글은 없습니다.");
-                    System.out.println("-------------------------\n");
-                } else {
+                if (foundArti != null) {
                     System.out.printf("기존 제목 : %s\n", foundArti.title);
                     System.out.print("새로운 제목 : ");
                     String newTitle = sc.nextLine();
@@ -140,11 +111,11 @@ class Main {
                     foundArti.setUpDate(upDate);
 
                     System.out.println(modifyNum + "번 게시글 수정합니다.");
-                    System.out.println("-------------------------\n");
+                    System.out.println("---------------------------------------\n");
                 }
             } else {
                 System.out.println("잘못된 명령어입니다.");
-                System.out.println("-------------------------\n");
+                System.out.println("---------------------------------------\n");
             }
         }
 
