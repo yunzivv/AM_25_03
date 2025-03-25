@@ -6,13 +6,20 @@ import java.util.Scanner;
 
 
 class Main {
+
+    // static은 static 끼리만 통신 가능하기 때문에
+    static List<Article> articles = new ArrayList<>();
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Article article;
-        List<Article> articles = new ArrayList<>();
         int lastNum = 1;
 
-        System.out.println("프로그램 시작");
+        Scanner sc = new Scanner(System.in);
+        Article article;
+
+        System.out.println("============ 프로그램 시작 ============");
+
+        // 테스트 데이터 추가
+        lastNum = makeTestData(lastNum, articles);
 
         while (true) {
             System.out.print("cmd : ");
@@ -21,6 +28,7 @@ class Main {
 
             if (cmd.equals("exit")) {
                 System.out.println("Goodbye!");
+                System.out.println("============ 프로그램 종료 ============");
                 break;
 
             } else if (cmd.equals("article write")) {
@@ -41,13 +49,14 @@ class Main {
 
                 System.out.println("No. |     date     |  Title  |  Content");
                 if (articles.isEmpty()) {
-                    System.out.println("============== No articles ==============\n");
+                    System.out.println("-------------- No articles --------------\n");
                     continue;
                 }
-                System.out.println("=======================================");
+                System.out.println("---------------------------------------");
+
                 for (int i = articles.size() - 1; i >= 0; i--) {
 
-                    if(Util.getNow().split(" ")[0].equals(articles.get(i).rgDate.split(" ")[0])) {
+                    if (Util.getNow().split(" ")[0].equals(articles.get(i).rgDate.split(" ")[0])) {
                         System.out.printf(" %d. |  %-10s  |  %-5s  |  %s\n", articles.get(i).num,
                                 articles.get(i).rgDate.split(" ")[1], articles.get(i).title, articles.get(i).content);
                     } else {
@@ -72,7 +81,8 @@ class Main {
                     System.out.println("-------------------------\n");
                 } else {
                     System.out.printf("번호 : %d\n", articles.get(detailNo - 1).num);
-                    System.out.printf("시간 : %s\n", articles.get(detailNo - 1).rgDate);
+                    System.out.printf("작성 시간 : %s\n", articles.get(detailNo - 1).rgDate);
+                    System.out.printf("수정 시간 : %s\n", articles.get(detailNo - 1).upDate);
                     System.out.printf("제목 : %s\n", articles.get(detailNo - 1).title);
                     System.out.printf("내용 : %s\n", articles.get(detailNo - 1).content);
                     System.out.println("-------------------------\n");
@@ -138,5 +148,13 @@ class Main {
             }
         }
 
+    }
+
+    /** 테스트 데이터 메서드 **/
+    public static int makeTestData(int lastNum, List<Article> articles) {
+        articles.add(new Article(lastNum++, "2024-10-10 01:01:01", "2025-11-11 11:11:11", "케로로", "케로케로"));
+        articles.add(new Article(lastNum++, "2025-02-02 02:02:02", "2025-12-12 12:12:12", "쿠루루", "쿠쿠쿠"));
+        articles.add(new Article(lastNum++, "2025-03-03 03:03:03", "2025-03-13 13:13:13", "도로로", "닌자"));
+        return lastNum;
     }
 }
