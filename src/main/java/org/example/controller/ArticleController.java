@@ -30,24 +30,12 @@ public class ArticleController extends Controller {
 
         switch (actionMethodName) {
             case "write":
-                if(isLogined() == false) {
-                    System.out.println("작성 권한이 없습니다. 로그인 해주세요.");
-                    return;
-                }
                 doWrite();
                 break;
             case "modify":
-                if(isLogined() == false) {
-                    System.out.println("수정 권한이 없습니다. 로그인 해주세요.");
-                    return;
-                }
                 doModify();
                 break;
             case "delete":
-                if(isLogined() == false) {
-                    System.out.println("삭제 권한이 없습니다. 로그인 해주세요.");
-                    return;
-                }
                 doDelete();
                 break;
             case "list":

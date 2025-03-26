@@ -10,7 +10,7 @@ public class Controller {
     }
 
     /**로그인되었다면 로그인 된 멤버 반환, 로그인되지 않았다면 null 반환하는 메서드**/
-    protected boolean isLogined() {
+    public static boolean isLogined() {
         return loginedMember != null;
     }
 }
