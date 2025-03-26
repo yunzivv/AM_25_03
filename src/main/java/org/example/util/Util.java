@@ -31,12 +31,4 @@ public class Util {
                     article.getTitle(), article.getContent());
         }
     }
-
-    /**
-     * 글 작성 loginId와 login한 Id가 같은 지 확인하는 메서드
-     **/
-    public static boolean checkID(String id) {
-
-        return false;
-    }
 }

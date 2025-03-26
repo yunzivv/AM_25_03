@@ -48,23 +48,27 @@ public class App {
                 continue;
             }
 
+            String cmdCheck = cmdArr[0] + " " + cmdArr[1];
+
             // 로그인 후 사용 가능한 명령어
-            switch (cmd) {
+            switch (cmdCheck) {
                 case "article write":
                 case "article delete":
                 case "article modify":
                 case "member logout":
                     if (!Controller.isLogined()) {
-                        System.out.println("권한이 없습니다. 로그인해주세요.");
+                        System.out.println("권한이 없습니다. 로그인해주세요.\n");
+                        continue;
                     }
             }
 
             // 로그아웃 후 사용 가능한 명령어
-            switch (cmd) {
+            switch (cmdCheck) {
                 case "member join":
                 case "member login":
                     if (Controller.isLogined()) {
-                        System.out.println("로그아웃 후 사용 가능합니다.");
+                        System.out.println("로그아웃 후 사용 가능합니다.\n");
+                        continue;
                     }
             }
 

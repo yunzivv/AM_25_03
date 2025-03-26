@@ -2,12 +2,9 @@ package org.example.controller;
 
 import org.example.dto.Article;
 import org.example.util.Util;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import static org.example.util.Util.listForDate;
 
 public class ArticleController extends Controller {
 
@@ -53,10 +50,7 @@ public class ArticleController extends Controller {
 
     private void doWrite() {
 
-        if(isLogined() == false) {
-            return;
-        }
-
+        writerId = getLoginMemberId();
         System.out.print("Enter title: ");
         String title = sc.nextLine().trim();
         System.out.print("Enter content: ");
@@ -75,7 +69,12 @@ public class ArticleController extends Controller {
         int modifyNo = Integer.parseInt(cmd.split(" ")[2]);
         Article article = findArticle(modifyNo);
 
-        if (article.getLoginId() != null) {
+        // 이 코드를 없애는 방법이 필요할 것 같다.
+        if(article == null) {
+            return;
+        }
+
+        if (getLoginMemberId() != getWriterId(article)) {
             System.out.println("수정 권한이 없습니다.");
             System.out.println("---------------------------------------\n");
             return;
@@ -102,10 +101,14 @@ public class ArticleController extends Controller {
 
     private void doDelete() {
 
-        int deleteNo = cmd.split(" ").length - 1;
+        int deleteNo = Integer.parseInt(cmd.split(" ")[2]);
         Article article = findArticle(deleteNo);
 
-        if (article.getLoginId() != null) {
+        if(article == null) {
+            return;
+        }
+
+        if (getLoginMemberId() != getWriterId(article)) {
             System.out.println("삭제 권한이 없습니다.");
             System.out.println("---------------------------------------\n");
             return;
@@ -133,7 +136,7 @@ public class ArticleController extends Controller {
             for (int i = articles.size() - 1; i >= 0; i--) {
                 // 검색어가 포함된 article만 출력
                 if (findTitle(articles.get(i), cmd.substring(12).strip())) {
-                    listForDate(articles.get(i));
+                    Util.listForDate(articles.get(i));
                     findArticleNo++;
                 }
             }
@@ -143,7 +146,7 @@ public class ArticleController extends Controller {
             }
         } else {
             for (int i = articles.size() - 1; i >= 0; i--) {
-                listForDate(articles.get(i));
+                Util.listForDate(articles.get(i));
             }
         }
         System.out.println("---------------------------------------\n");
@@ -151,22 +154,21 @@ public class ArticleController extends Controller {
 
     private void showDetail() {
 
-        int detailNo = cmd.split(" ").length - 1;
+        int detailNo = Integer.parseInt(cmd.split(" ")[2]);
         Article article = findArticle(detailNo);
 
         if (article != null) {
             System.out.printf("번호 : %d\n", article.getNum());
             System.out.printf("작성 시간 : %s\n", article.getRgDate());
             System.out.printf("수정 시간 : %s\n", article.getUpDate());
+            System.out.printf("작성자 : %s\n", article.getLoginId());
             System.out.printf("제목 : %s\n", article.getTitle());
             System.out.printf("내용 : %s\n", article.getContent());
             System.out.println("---------------------------------------\n");
         }
     }
 
-    /**
-     * article 테스트 데이터 메서드
-     **/
+    /**article 테스트 데이터 메서드**/
     public void makeTestData() {
         System.out.println("(테스트 데이터 Article 3EA 추가)");
         articles.add(new Article(1, "2024-10-10 01:01:01", "2025-11-11 11:11:11", "keroro", "keroro", "kerokero"));
@@ -174,9 +176,7 @@ public class ArticleController extends Controller {
         articles.add(new Article(3, "2025-03-03 03:03:03", "2025-03-13 13:13:13", "dororo", "dororo", "ninza"));
     }
 
-    /**
-     * 입력받은 번호의 article  반환 메서드
-     **/
+    /**입력받은 번호의 article  반환 메서드**/
     private Article findArticle(int num) {
         for (Article article : articles) {
             if (article.getNum() == num) {
@@ -188,13 +188,16 @@ public class ArticleController extends Controller {
         return null;
     }
 
-    /**
-     * 입력받은 글자를 포함하는 제목을 가진 article  반환 메서드
-     **/
+    /**입력받은 글자를 포함하는 제목을 가진 article  반환 메서드**/
     private boolean findTitle(Article article, String find) {
         if (article.getTitle().contains(find)) {
             return true;
         }
         return false;
+    }
+
+    /**작성자 Id를 반환하는 메서드**/
+    private String getWriterId(Article article) {
+        return article.getLoginId();
     }
 }

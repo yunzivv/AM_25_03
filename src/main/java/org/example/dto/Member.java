@@ -5,10 +5,10 @@ public class Member extends DTO {
 
     private String loginPw;
     private String name;
-    static int lastId = 1;
+    static int lastNum = 1;
 
     public Member(String regDate, String loginId, String loginPwd, String name) {
-        this.num = lastId++;
+        this.num = lastNum++;
         this.rgDate = regDate;
         this.loginId = loginId;
         this.loginPw = loginPwd;
@@ -27,7 +27,7 @@ public class Member extends DTO {
         return loginPw;
     }
 
-    public void setLoginPwd(String loginPwd) {
+    public void setLoginPw(String loginPwd) {
         this.loginPw = loginPwd;
     }
 
