@@ -1,7 +1,7 @@
 package org.example.dto;
 
 public class DTO {
-    protected int num;
+    protected int id;
     protected String rgDate;
     protected String loginId;
 

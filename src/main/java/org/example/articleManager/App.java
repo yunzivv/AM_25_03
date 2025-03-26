@@ -12,9 +12,9 @@ public class App {
 
         Scanner sc = new Scanner(System.in);
 
+        // Controller 인스턴스 생성, 인수로 Scanner 전달
         MemberController memberController = new MemberController(sc);
         ArticleController articleController = new ArticleController(sc);
-
         Controller controller = null;
 
         // 테스트 데이터 추가
@@ -27,7 +27,7 @@ public class App {
 
             System.out.print("cmd : ");
             String cmd = sc.nextLine().trim();
-            System.out.println("---------------------------------------");
+            System.out.println("----------------------------------------------------");
 
             if (cmd.length() == 0) {
                 System.out.println("명령어를 입력하세요");
@@ -44,14 +44,14 @@ public class App {
 
             if (cmdArr.length == 1) {
                 System.out.println("잘못된 명령어 입니다.");
-                System.out.println("---------------------------------------\n");
+                System.out.println("----------------------------------------------------\n");
                 continue;
             }
 
-            String cmdCheck = cmdArr[0] + " " + cmdArr[1];
+            String loginCheck = cmdArr[0] + " " + cmdArr[1];
 
             // 로그인 후 사용 가능한 명령어
-            switch (cmdCheck) {
+            switch (loginCheck) {
                 case "article write":
                 case "article delete":
                 case "article modify":
@@ -63,7 +63,7 @@ public class App {
             }
 
             // 로그아웃 후 사용 가능한 명령어
-            switch (cmdCheck) {
+            switch (loginCheck) {
                 case "member join":
                 case "member login":
                     if (Controller.isLogined()) {
@@ -81,7 +81,7 @@ public class App {
                 controller = memberController;
             } else {
                 System.out.println("지원하지 않는 기능입니다.");
-                System.out.println("---------------------------------------\n");
+                System.out.println("----------------------------------------------------\n");
                 continue;
             }
 

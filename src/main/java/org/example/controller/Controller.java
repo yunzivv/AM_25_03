@@ -15,7 +15,7 @@ public class Controller {
         return loginedMember != null;
     }
 
-    //**로그인된 member의 Id 반환하는 메서드**/
+    /**로그인된 member의 Id 반환하는 메서드**/
     protected static String getLoginMemberId() {
         return loginedMember.getLoginId();
     }

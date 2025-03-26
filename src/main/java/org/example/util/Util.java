@@ -23,11 +23,11 @@ public class Util {
     public static void listForDate(Article article) {
         if (Util.getNow().split(" ")[0].equals(article.getRgDate())) {
             System.out.printf(" %d. | %-12s |  %-5s  |  %s\n",
-                    article.getNum(), article.getRgDate().split(" ")[1],
+                    article.getId(), article.getRgDate().split(" ")[1],
                     article.getTitle(), article.getContent());
         } else {
             System.out.printf(" %d. | %-12s |  %-5s  |  %s\n",
-                    article.getNum(), article.getRgDate().split(" ")[0],
+                    article.getId(), article.getRgDate().split(" ")[0],
                     article.getTitle(), article.getContent());
         }
     }

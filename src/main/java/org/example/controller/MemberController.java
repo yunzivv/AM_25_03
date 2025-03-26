@@ -2,7 +2,6 @@ package org.example.controller;
 
 import org.example.dto.Member;
 import org.example.util.Util;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +31,7 @@ public class MemberController extends Controller {
                 doLogout();
                 break;
             default:
-                System.out.println("Invalid action method");
+                System.out.println("지원하지 않는 기능입니다.");
                 System.out.println("---------------------------------------\n");
                 break;
         }

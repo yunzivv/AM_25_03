@@ -8,7 +8,7 @@ public class Member extends DTO {
     static int lastNum = 1;
 
     public Member(String regDate, String loginId, String loginPwd, String name) {
-        this.num = lastNum++;
+        this.id = lastNum++;
         this.rgDate = regDate;
         this.loginId = loginId;
         this.loginPw = loginPwd;
@@ -32,4 +32,7 @@ public class Member extends DTO {
     }
 
     public String getName() {return name;}
+
+    public int getId() { return id;
+    }
 }
