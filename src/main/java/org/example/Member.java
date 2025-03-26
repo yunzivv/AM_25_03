@@ -26,23 +26,11 @@ public class Member {
         this.loginId = loginId;
     }
 
-    public String getLoginPwd() {
+    public String getLoginPw() {
         return loginPw;
     }
 
     public void setLoginPwd(String loginPwd) {
         this.loginPw = loginPwd;
-    }
-
-    public String isLogin(Member member, String loginId, String loginPwd) {
-
-        if (member.getLoginId().equals(loginId)) {
-            if (member.getLoginPwd().equals(loginPwd)) {
-                return "TT";
-            } else {
-                return "TF";
-            }
-        }
-        return "FF";
     }
 }
