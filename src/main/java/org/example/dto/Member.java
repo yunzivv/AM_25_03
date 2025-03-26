@@ -1,18 +1,15 @@
 package org.example.dto;
 
 
-public class Member {
+public class Member extends DTO {
 
-    private int id;
-    private String regDate;
-    private String loginId;
     private String loginPw;
     private String name;
     static int lastId = 1;
 
-    Member(String regDate, String loginId, String loginPwd, String name) {
-        this.id = lastId++;
-        this.regDate = regDate;
+    public Member(String regDate, String loginId, String loginPwd, String name) {
+        this.num = lastId++;
+        this.rgDate = regDate;
         this.loginId = loginId;
         this.loginPw = loginPwd;
         this.name = name;
@@ -33,4 +30,6 @@ public class Member {
     public void setLoginPwd(String loginPwd) {
         this.loginPw = loginPwd;
     }
+
+    public String getName() {return name;}
 }

@@ -9,12 +9,9 @@ import java.util.Scanner;
 
 public class MemberController extends Controller {
 
-    Scanner sc;
-    List<Member> members;
-    String loginPassword = null;
-    String name;
-    boolean login = false;
-    String cmd;
+    private Scanner sc;
+    private List<Member> members;
+    private String cmd;
 
     public MemberController(Scanner sc) {
         this.sc = sc;
@@ -26,24 +23,41 @@ public class MemberController extends Controller {
 
         switch (actionMethodName) {
             case "join":
-                join();
+                if(isLogined()) {
+                    System.out.println("이미 로그인 되었습니다.");
+                    System.out.println("---------------------------------------\n");
+                    return;
+                }
+                doJoin();
                 break;
             case "login":
-                login();
+                if(isLogined()) {
+                    System.out.println("이미 로그인 되었습니다.");
+                    System.out.println("---------------------------------------\n");
+                    return;
+                }
+                doLogin();
                 break;
             case "logout":
-                logout();
+                if(!isLogined()) {
+                    System.out.println("이미 로그아웃 되었습니다.");
+                    System.out.println("---------------------------------------\n");
+                    return;
+                }
+                doLogout();
                 break;
             default:
                 System.out.println("Invalid action method");
+                System.out.println("---------------------------------------\n");
                 break;
         }
 
     }
 
-    public void join() {
+    private void doJoin() {
 
         String loginId;
+        String loginPw;
         System.out.println("[ 회원가입 ]");
         // 중복되지 않은 ID 입력받기
         while (true) {
@@ -66,11 +80,11 @@ public class MemberController extends Controller {
         // 비밀번호 확인
         while (true) {
             System.out.print("Password : ");
-            loginPassword = sc.next().trim();
+            loginPw = sc.next().trim();
             System.out.print("Password check : ");
             String loginPasswordCheck = sc.next().trim();
 
-            if (loginPassword.equals(loginPasswordCheck)) {
+            if (loginPw.equals(loginPasswordCheck)) {
                 break;
             } else {
                 System.out.println("비밀번호가 일치하지 않습니다.");
@@ -80,32 +94,41 @@ public class MemberController extends Controller {
         System.out.print("Name : ");
         // 버퍼에 공백이 남는 오류(왜?) 해결
         sc.nextLine();
-        name = sc.nextLine().trim();
+        String name = sc.nextLine().trim();
 
-        members.add(new Member(Util.getNow(), loginId, loginPassword, name));
+        members.add(new Member(Util.getNow(), loginId, loginPw, name));
         System.out.println("회원가입 완료");
         System.out.println("---------------------------------------\n");
 
     }
 
-    public void login() {
-        System.out.println("[ 로그인 ]");
-        System.out.print("ID : ");
-        String ID = sc.nextLine().trim();
-        System.out.print("Password : ");
-        String PW = sc.nextLine().trim();
+    private void doLogin() {
 
-        Member loginmember = null;
+        if(loginedMember != null) {
+            System.out.println("이미 로그인 되었습니다.");
+            System.out.println("---------------------------------------\n");
+            return;
+        }
+
+        System.out.println("[ 로그인 ]");
+        System.out.print("Login Id : ");
+        String LoginId = sc.nextLine().trim();
+        System.out.print("Login Password : ");
+        String LofinPw = sc.nextLine().trim();
 
         // 입력한 ID와 PW가 있다면 로그인 성공
+        Member loginMember = null;
+
         for (Member member : members) {
 
-            if (member.getLoginId().equals(ID)) {
-                loginmember = member;
+            if (member.getLoginId().equals(LoginId)) {
 
-                if (loginmember.getLoginPw().equals(PW)) {
-                    System.out.println("로그인 성공");
+                loginMember = member;
+
+                if (loginMember.getLoginPw().equals(LofinPw)) {
+                    System.out.printf("%s님 로그인 성공!\n", member.getName());
                     System.out.println("---------------------------------------\n");
+                    loginedMember = loginMember;
                     return;
                 } else {
                     System.out.println("비밀번호가 틀렸습니다.");
@@ -114,13 +137,22 @@ public class MemberController extends Controller {
                 }
             }
         }
-        if (loginmember == null) {
+        if (loginMember == null) {
             System.out.println("잘못된 아이디입니다.");
             System.out.println("---------------------------------------\n");
         }
     }
 
-    public static void logout() {
+    private void doLogout() {
+
+        if(loginedMember == null) {
+            System.out.println("로그인되지 않았습니다.");
+            System.out.println("---------------------------------------\n");
+            return;
+        }
+
+        loginedMember = null;
+
         System.out.println("[ 로그아웃 ]");
         System.out.println("---------------------------------------\n");
     }
@@ -128,10 +160,10 @@ public class MemberController extends Controller {
     /**
      * member 테스트 데이터 메서드
      **/
-    void makeTestData() {
+    public void makeTestData() {
         System.out.println("(테스트 데이터 Member 3EA 추가)");
         members.add(new Member("2022-02-02", "keroro", "green", "케로로"));
-        members.add(new Member("2023-03-03", "kururu", "yellow", "쿠루루"));
+        members.add(new Member("2023-03-03", "kululu", "yellow", "쿠루루"));
         members.add(new Member("2024-04-04", "dororo", "blue", "도로로"));
     }
 }
