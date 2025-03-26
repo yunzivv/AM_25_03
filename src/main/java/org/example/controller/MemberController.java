@@ -1,23 +1,45 @@
-package org.example;
+package org.example.controller;
+
+import org.example.dto.Member;
+import org.example.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MemberController {
+public class MemberController extends Controller {
 
     Scanner sc;
     List<Member> members;
-    int lastNum;
     String loginPassword = null;
     String name;
     boolean login = false;
+    String cmd;
 
     public MemberController(Scanner sc) {
         this.sc = sc;
         members = new ArrayList<>();
     }
 
+    public void doAction(String cmd, String actionMethodName) {
+        this.cmd = cmd;
+
+        switch (actionMethodName) {
+            case "join":
+                join();
+                break;
+            case "login":
+                login();
+                break;
+            case "logout":
+                logout();
+                break;
+            default:
+                System.out.println("Invalid action method");
+                break;
+        }
+
+    }
 
     public void join() {
 

@@ -1,4 +1,6 @@
-package org.example;
+package org.example.util;
+
+import org.example.dto.Article;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
